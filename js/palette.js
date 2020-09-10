@@ -72,17 +72,17 @@ const WP_UPDATE = function () {
         $("#selector-" + APP.TYPES[COLOR] + " .value").css("margin-left", "calc(" + (APP.PICKER[COLOR] / 255) + " * (100% - 3em))");
     }
     $("#color-name").attr("placeholder", fullColorHex(APP.PICKER[0], APP.PICKER[1], APP.PICKER[2]));
+    UpdateGame();
 };
 
 // THEME FUNCTIONS
-
-const ResetTheme = function (code) {
+const ResetTheme = function(code) {
     if (code != 2) Game.Theme = "19 241 210";
     $('body').attr("style", `--ALPHA: ${Game.Theme};`);
     if (code == 1) save();
 };
 
-const rgbToHex = function (rgb) {
+const rgbToHex = function(rgb) {
     let hex = Number(rgb).toString(16);
     if (hex.length < 2) hex = "0" + hex;
     if (hex == 0) hex = "00";
