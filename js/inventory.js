@@ -57,7 +57,7 @@ const GenInventory = function () {
     $("#RELICS_COUNT").html(`Relics <div class="pw inline label">${COUNTERS[4]}</div>`);
 };
 
-const GenWeapons = function () {
+function GenWeapons() {
     var TYPE = "";
     for (var T = 1; T < 3; T++) {
         var Names = ["", "Sword", "Dagger"];
@@ -87,9 +87,9 @@ const GenWeapons = function () {
         $("#" + TYPE + "WeaponText").html("<i class='pw blue fas fa-sword'></i> " + Game.Weapons[TYPE][4]);
         $("#" + TYPE + "WeaponTitle").html("<span class='" + Game.Weapons[TYPE][1] + "'>" + Game.Weapons[TYPE][1] + "</span> " + Game.Weapons[TYPE][0]);
     }
-};
+}
 
-const GenArmors = function () {
+function GenArmors() {
     let Names = ["", "Helmet", "Armor", "Shield", "Boots"];
     for (let UPC = 1; UPC < 5; UPC++) {
         let Class = 0;
@@ -129,8 +129,7 @@ const GenArmors = function () {
     }
     if (Game.Level < 30) $("#NextArmor").html("Next armor piece unlocked at Lv. " + NEXT_ARMOR_PIECE());
     else $("#NextArmor").html("");
-};
-
+}
 
 // ITEM GENERATION
 const newItem = function (OBJECT, LEVEL, CLASS) {
@@ -231,7 +230,7 @@ const newItem = function (OBJECT, LEVEL, CLASS) {
             if (ITEM_CONFIG.RARITIES[ITEM.class][0] > 1) ITEM.bonus = CLASSES[_.random(ITEM_CONFIG.RARITIES[ITEM.class][0] - 2, ITEM_CONFIG.RARITIES[ITEM.class][0] - 1)];
             if (ITEM_CONFIG.RARITIES[ITEM.class][0] > 2) ITEM.bonus = CLASSES[_.random(ITEM_CONFIG.RARITIES[ITEM.class][0] - 3, ITEM_CONFIG.RARITIES[ITEM.class][0] - 1)];
         }
-        // VULCAN - MAX SCORE
+        // VULCAN - MAX SCORE 
         if (RelicType == 3) ITEM.bonus = ITEM_CONFIG.RELIC_SCORE_MUTLIPLIERS[ITEM_CONFIG.RARITIES[ITEM.class][0] - 1];
         ITEM.relictype = RelicType + 1;
         ITEM.name = GLOBALS.RELICS_NAMES[RelicType];
@@ -240,7 +239,6 @@ const newItem = function (OBJECT, LEVEL, CLASS) {
     if ((OBJECT == 'Armor' || OBJECT == 'Weapon' || OBJECT == 'Gem' || OBJECT == 'Relic') && Game.inventory.length - 1 < Game.MaxInv) Game.inventory[Game.inventory.length] = ITEM;
     GenInventory();
 };
-
 
 // EQUIPMENT INSTALLATION
 const EquipItem = function (ITEM, TYPE) {
@@ -389,12 +387,12 @@ const ConfirmRelic = function (RELIC, ITEM) {
         "Max Score +<span class='" + IRCOLOR2 + "'>" + fix(Game.inventory[ITEM].bonus, 1) + "</span>",
         "-"
     ];
-    if (Game.config[1] == 1) POPUP("New Relic confirmation", `<div class="pw horizontal segments"><div class="pw segment">Old</div><div class="pw little segment"><i class="fal fa-arrow-right"></i></div><div class="pw segment">New</div></div>
+    if (Game.config[1] == 1) POPUP("New Relic confirmation",`<div class="pw horizontal segments"><div class="pw segment">Old</div><div class="pw little segment"><i class="fal fa-arrow-right"></i></div><div class="pw segment">New</div></div>
         <div class="pw horizontal segments">
         <div class="pw segment"><div>${GLOBALS.RELICS_NAMES[Game.RELICS[RELIC][1] - 1]}</div><div class="${Game.RELICS[RELIC][0]}">${Game.RELICS[RELIC][0]}</div><div>${DESCS[Game.RELICS[RELIC][1]]}</div></div>
         <div class="pw little segment"></div>
         <div class="pw segment"><div>${Game.inventory[ITEM].name}</div><div class="${Game.inventory[ITEM].class}">${Game.inventory[ITEM].class}</div><div>${DESCS2[Game.inventory[ITEM].relictype]}</div></div>
-        </div>` , 4);
+        </div>` ,4);
     else InstallRelic(RELIC, ITEM);
 };
 
@@ -443,7 +441,7 @@ function UPGRADE_WEAPON(WEAPON, ITEM) {
     UpdateGame();
 }
 
-// DESTROY EQUIPMENT
+// DESTROY EQUIPMENT 
 function DestroyWeapon(WEAPON) {
     if (WEAPON == "Main") Game.Weapons.Main = ["Training Sword", "Normal", 0, 1, 10];
     else Game.Weapons.Special = ["Training Dagger", "Normal", 0, 1, 10];
@@ -457,7 +455,7 @@ function ConfirmDestroyWeapon(weapon) {
     APP.ToDelete.type = weapon;
     var TIER = APP.ScoreModeEnabled == 0 ? "Level " : "Score <i class='fad fa-dice-d20'></i>";
     var DTIERRANK = APP.ScoreModeEnabled == 0 ? Math.round(APP.ToDelete[3]) : Math.floor(APP.ToDelete[3] * 10);
-    POPUP("Throw your current " + weapon + " weapon ?", `<span class='${APP.ToDelete[1]}'>${APP.ToDelete[1]} ${APP.ToDelete[0]} <div class='pw inline label'>${TIER} ${DTIERRANK}</div></span><br><i class='pw blue fas fa-sword'></i>${APP.ToDelete[4]}`, 1);
+    POPUP("Throw your current " + weapon + " weapon ?", `<span class='${APP.ToDelete[1]}'>${APP.ToDelete[1]} ${APP.ToDelete[0]} <div class='pw inline label'>${TIER} ${DTIERRANK}</div></span><br><i class='pw blue fas fa-sword'></i>${APP.ToDelete[4]}`,1);
 }
 
 function DestroyCore(ARMOR) {
@@ -475,7 +473,7 @@ function ConfirmDestroy(ARMOR) {
     var TIER = APP.ScoreModeEnabled == 0 ? "Level " : "Score <i class='fad fa-dice-d20'></i>";
     var DTIERRANK = APP.ScoreModeEnabled == 0 ? Math.round(APP.ToDelete[4]) : Math.floor(APP.ToDelete[4] * 10);
     var Names = ["", "Helmet", "Armor", "Shield", "Boots"];
-    POPUP("Throw your current " + Names[ARMOR] + " ?", `<span class='${APP.ToDelete[2]}'>${APP.ToDelete[2]} ${APP.ToDelete[1]} <div class='pw inline label'>${TIER} ${DTIERRANK}</div></span><br>Available slots : ${(Game.MaxUPC[ARMOR - 1] - APP.ToDelete[5])}<i class='pw orange fad fa-gem'></i><br><i class='pw red fas fa-heart'></i>${APP.ToDelete[3]}`, 3);
+    POPUP("Throw your current " + Names[ARMOR] + " ?", `<span class='${APP.ToDelete[2]}'>${APP.ToDelete[2]} ${APP.ToDelete[1]} <div class='pw inline label'>${TIER} ${DTIERRANK}</div></span><br>Available slots : ${(Game.MaxUPC[ARMOR - 1] - APP.ToDelete[5])}<i class='pw orange fad fa-gem'></i><br><i class='pw red fas fa-heart'></i>${APP.ToDelete[3]}`,3);
 }
 
 const RemoveItem = function (ITEM) {
@@ -515,23 +513,19 @@ const CHECK_EQUIPMENT = function () {
         RARITIES: { Normal: [1, 1], Common: [2, 2000], Uncommon: [3, 5000], Rare: [4, 7000], Epic: [5, 8500], Exotic: [6, 9500], Divine: [7, 9850] },
         GEMS_MULTIPLIER: { Normal: 1.5, Common: 2.5, Uncommon: 3.5, Rare: 5.0, Epic: 7.5, Exotic: 9, Divine: 10 }
     };
-
     let MAX_QUALITY = APP.ScoreModeEnabled == 1 ? "Divine" : QUALITIES[GLOBALS.LOCATIONS[LATEST_LOCATION_UNLOCKED()][3]];
     let MAX_GEMS = [0, 0]; // LIFE || POWER
     for (let ARMOR in Game.Armors) {
         let VALUE = ITEM_CONFIG.GEMS_MULTIPLIER[MAX_QUALITY] * ((Game.Armors[ARMOR][3] - Game.ArmorUpgrades[ARMOR]) * 0.01) + ITEM_CONFIG.RARITIES[MAX_QUALITY][0];
         MAX_GEMS[0] = VALUE > MAX_GEMS[0] ? VALUE : MAX_GEMS[0];
-        Game.MaxLevelReached = Game.Armors[ARMOR][4] > Game.MaxLevelReached ? Game.Armors[ARMOR][4] : Game.MaxLevelReached;
     }
     for (let WEAPON in Game.Weapons) {
         let VALUE = ITEM_CONFIG.GEMS_MULTIPLIER[MAX_QUALITY] * ((Game.Weapons[WEAPON][4] - Game.WeaponUpgrades[WEAPON]) * 0.01) + ITEM_CONFIG.RARITIES[MAX_QUALITY][0];
         MAX_GEMS[1] = VALUE > MAX_GEMS[1] ? VALUE : MAX_GEMS[1];
-        Game.MaxLevelReached = Game.Weapons[WEAPON][3] > Game.MaxLevelReached ? Game.Weapons[WEAPON][3] : Game.MaxLevelReached;
     }
-
     for (let ARMOR in Game.Armors) {
         if (ARMOR != 0) {
-            let MAX_VALUE = (Game.MaxLevelReached * 10) * ITEM_CONFIG.MULTIPLIERS[ITEM_CONFIG.RARITIES[MAX_QUALITY][0] - 1] + 100;
+            let MAX_VALUE = (Game.Armors[ARMOR][4] * 10) * ITEM_CONFIG.MULTIPLIERS[ITEM_CONFIG.RARITIES[MAX_QUALITY][0] - 1] + 100;
             if ((Game.Armors[ARMOR][3] - Game.ArmorUpgrades[ARMOR]) > MAX_VALUE) {
                 console.log(`Auto-Scaling of the ${GLOBALS.ARMORS_TYPE[ARMOR]} || ${Game.Armors[ARMOR][3]} out of ${Math.round(MAX_VALUE)}.`);
                 Game.Armors[ARMOR][3] = (MAX_VALUE + Game.ArmorUpgrades[ARMOR]);
@@ -548,9 +542,8 @@ const CHECK_EQUIPMENT = function () {
             if (Game.ArmorUpgrades[ARMOR] < 0) Game.ArmorUpgrades[ARMOR] = 0;
         }
     }
-
     for (let WEAPON in Game.Weapons) {
-        let MAX_VALUE = (Game.MaxLevelReached * 2) * ITEM_CONFIG.MULTIPLIERS[ITEM_CONFIG.RARITIES[MAX_QUALITY][0] - 1] + 10;
+        let MAX_VALUE = (Game.Weapons[WEAPON][3] * 2) * ITEM_CONFIG.MULTIPLIERS[ITEM_CONFIG.RARITIES[MAX_QUALITY][0] - 1] + 10;
         if ((Game.Weapons[WEAPON][4] - Game.WeaponUpgrades[WEAPON]) > MAX_VALUE) {
             console.log(`Auto-Scaling of the ${WEAPON} weapon || ${Game.Weapons[WEAPON][4]} out of ${Math.round(MAX_VALUE)}.`);
             Game.Weapons[WEAPON][4] = (MAX_VALUE + Game.WeaponUpgrades[WEAPON]);
