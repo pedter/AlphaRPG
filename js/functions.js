@@ -190,7 +190,7 @@ const CHANGE_AVATAR = function (TYPE) {
 };
 
 function helpScore() {
-    POPUP("Score Tutorial", "1) Score is calculated by averaging the score of your equipped items (weapons and armor).<br>Picking the equipment with the highest score will allow faster progression through Dimensions even if your damage and life are slightly lower.<br><br>2) Your current score dictates the score of newly dropped loot.<br><br>3) Your score is limited by your current Dimension and (if applicable) your equipped relics. You can view your maximum score in Statistics.");
+    POPUP("Score Tutorial","1) Score is calculated by averaging the score of your equipped items (weapons and armor).<br>Picking the equipment with the highest score will allow faster progression through Dimensions even if your damage and life are slightly lower.<br><br>2) Your current score dictates the score of newly dropped loot.<br><br>3) Your score is limited by your current Dimension and (if applicable) your equipped relics. You can view your maximum score in Statistics.");
 }
 
 function GenExplorationMenu() {
@@ -209,7 +209,7 @@ function GenExplorationMenu() {
         if (Game.MissionStarted[0] || Game.Location == E) BTN = "";
         let LOCATION_COLOR = Game.Location != E ? "pw segment dark" : "pw segment active";
         if (GLOBALS.LOCATIONS[E][1] < Game.Level + 1 && E != 11 && E != 17) {
-            let CONTENT = ("<div class='" + LOCATION_COLOR + "'><h3 class='text-center'>" + GLOBALS.LOCATIONS[E][0] + "<span class='pw white'> - Lv. " + LEVEL + "</span></h3>\<div class='pw label green'><i class='far fa-dot-circle'></i> " + UNLOCKTEXT + "<br>\<i class='fas fa-sack icon'></i> <span class='" + QUALITY + "'>" + QUALITY + "</span></div>" + BTN + "</div>");
+            let CONTENT = ("<div class='" + LOCATION_COLOR + "'><h3 class='text-center'>" + GLOBALS.LOCATIONS[E][0] + "<span class='pw white'> - Lv. " + LEVEL + "</span></h3>\<div class='pw label green'><i class='far fa-dot-circle'></i> " + UNLOCKTEXT + "<br>\<i class='fas fa-sack icon'></i> <span class='" + QUALITY + "'>" + QUALITY + "</span></div>\" + BTN + "</div>");
             $("#DIV-EXPLORE").append(CONTENT);
         }
     }
