@@ -1,15 +1,15 @@
 /*
-  TODO LIST :
-    • Bug testing
-    • Ability to equip/remove items directly via loots
+TODO LIST:
+• Bug testing
+• Ability to equip/remove items directly via loots 
 
-  IDEAS :
-1. Unlocking an idle mode when passing dimension 2.
-2. A crafting system for Gems - Weapons - Armors and maybe relics
+IDEAS:
+1. Unlocking an idle mode when passing into dimension 2.
+2. A crafting system for Gems / Weapons / Armors and maybe relics
 3. A bank, guild & shopping System
-    - Bank : Put your money in the bank so that you don't lose it when dying.
-    - Guild : Passing ranks in the guild to earn more money.
-    - Shop : Selling the best weapons & armors of the game, unique-class items would have skills embedded into them
+    - Bank:  Put your money in the bank so that you don't lose it when dying.
+    - Guild: Passing ranks in the guild to earn more money.
+    - Shop:  Selling the best weapons & armors of the game, unique-class items would have skills embedded into them
 4. Adding achievements
 */
 
@@ -45,17 +45,18 @@ var APP = {
     LastCover: 0,
     NextHeal: 5,
     TYPES: ["red", "green", "blue"],
-    PICKER: [19, 241, 210],
+    VERSION: 0.1,
+    PICKER: [0, 0, 0],
     SELECTION: ""
 };
 
 $(document).ready(function () {
-    if (GLOBALS.BETA) GLOBALS.VERSION = `${GLOBALS.VERSION} BETA ${GLOBALS.BETA}`;
     if (location.href.match(/(:5500).*/)) GLOBALS.VERSION = "dev";
+    if (location.href.match(/(alpha.purplewizard.space\/beta).*/)) GLOBALS.VERSION = GLOBALS.VERSION + " BETA";
     document.title = GLOBALS.NAME;
     $("#site-name").html(GLOBALS.NAME + "<span class='sub'>" + GLOBALS.VERSION + "</span>");
     ResetTheme(0);
-    if (localStorage.getItem("Alpha") !== null) load();
+    if (localStorage.getItem("Alpha") != null) load();
     if (Game.username != "Default" && APP.LoggedIn == 0 && APP.Email != "DoNotLogin" && !$("#LOGIN-NOTICE").hasClass("active") && GLOBALS.VERSION != "dev") LOGIN("RETURN");
     if (Game.username != "Default") {
         $("#GAME").show();
@@ -64,7 +65,6 @@ $(document).ready(function () {
         UpdateEngine();
         GenMissions();
         CHECK_EQUIPMENT();
-        WP_UPDATE();
     }
     Game.isInFight = 0;
     setInterval(UpdateEngine, 1000);
@@ -95,7 +95,7 @@ const UpdateEngine = function () {
     Game.PlayTime++;
     if (Game.Level >= APP.MaxLevel && APP.LastMission >= APP.TotalMissions) APP.ScoreModeEnabled = 1;
     else APP.ScoreModeEnabled = 0;
-    if (typeof (GLOBALS.ENEMIES_NAMES[Game.Location][Game.Enemy[0]]) === 'undefined' && Game.Enemy[0] != "boss") Game.Enemy[0] = 0;
+    if (typeof (GLOBALS.ENEMIES_NAMES[Game.Location][Game.Enemy[0]]) === 'undefined') Game.Enemy[0] = 0;
     if (Game.Level == 1 && !Game.MissionStarted[0] && Game.MissionsCompleted[0] == 0 && Game.config[3] == 1 && $("#INTRODUCTION").is(":hidden") && !$("#LOGIN-NOTICE").hasClass("active")) mission(0);
     if (Game.isInFight == 1) $("#EnemySprite").html("<img class='pw medium image' src='images/Monsters/" + Game.Location + "-" + Game.Enemy[0] + ".png'>");
     if (APP.CoreLife > APP.CoreBaseLife) {
@@ -328,7 +328,7 @@ const UpdateUI = function () {
         Game.isInFight = 3;
     }
     $("#PlayerXP .progress-bar").attr("style", "max-width:" + GetEXPPercent() + "%;");
-    let WTText = Game.Simulation > 1 ? "Dimension <i class='globe icon'></i> " + Game.Simulation + "<br>" : "";
+    var WTText = Game.Simulation > 1 ? "Dimension <i class='globe icon'></i> " + Game.Simulation + "<br>" : "";
     $("#LABEL_SHARDS").html(fix(Game.Shards, 5));
     if (APP.ScoreModeEnabled == 0) {
         $("#DimensionID").html(WTText);
