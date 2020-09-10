@@ -109,7 +109,7 @@
 
 .Unique {
     color: var(--Unique) !important;
-    text-shadow: 0px 0px 3px var(--Unique) !important;
+    text-shadow: 0px 0px 3px var(--Unique)!important;
     border-color: var(--Unique) !important;
 }
 
